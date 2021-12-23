@@ -1146,14 +1146,21 @@ function library:AddWindow(title, options)
 					function tab_data:AddLabel(label_text) -- [Label]
 						label_text = tostring(label_text or "New Label")
 
-						local label = Prefabs:FindFirstChild("Label"):Clone()
+                        local label = Prefabs:FindFirstChild("Label"):Clone()
 
 						label.Parent = new_tab
 						label.Text = label_text
 						label.Size = UDim2.new(0, gNameLen(label), 0, 20)
 						label.ZIndex = label.ZIndex + (windows * 10)
 
-						return label
+                        local label_data = {};
+                        label_data.Label = label;
+                        
+                        function label_data:Set(NewText)
+                            label_data.Label.Text = NewText
+                        end
+
+						return label_data
 					end
 
 					function tab_data:AddButton(button_text, callback) -- [Button]
@@ -2021,4 +2028,5 @@ function library:AddWindow(title, options)
 
 	return window_data, Window
 end
-return library
+
+getgenv().UILib = library
